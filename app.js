@@ -17,7 +17,7 @@ var path = require('path');
 
 path.join2 = path.join;
 path.sep = '/';
-path.join = function(){
+path.join = function () {
     var res = path.join2.apply({}, arguments);
     res = res.replace(/\\/g, path.sep);
     return res;
@@ -43,10 +43,10 @@ bot.on('message', function (msg) {
                 return response;
             });
         }).then(response => {
-            console.log("FROM wit.ai: "+response._text);
+            console.log("FROM wit.ai: " + response._text);
             return response._text;
         }).then(text => {
-            if(text === null || text === ""){
+            if (text === null || text === "") {
                 var transcribingErrorMessage = 'Говори четче, ' + msg.from.first_name + '. Нихуя не понятно!';
                 bot.sendMessage(msg.chat.id, transcribingErrorMessage, {
                     reply_to_message_id: msg.message_id
