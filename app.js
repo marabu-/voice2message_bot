@@ -11,7 +11,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const ffmpeg = require('./ffmpeg');
 const voiceToText = require('./voiceToText');
 
-const bot = new TelegramBot(telegramToken, {polling: true});
+const bot = new TelegramBot(telegramToken, {polling: {timeout: 10, interval: 2000}});
 
 var path = require('path');
 
