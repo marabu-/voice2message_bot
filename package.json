@@ -1,0 +1,13 @@
+{
+  "name": "voice2text_bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --harmony_default_parameters app.js"
+  },
+  "dependencies": {
+    "node-telegram-bot-api": "^0.24.0"
+  }
+}
