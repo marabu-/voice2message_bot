@@ -1,9 +1,8 @@
 'use strict';
 
 const config = require('./config');
-
+const https = require("https");
 const telegramToken = config.telegramToken;
-
 const witToken = config.witToken;
 const ffmpegPath = config.ffmpegPath;
 const fs = require('fs');
@@ -62,3 +61,8 @@ bot.on('message', function (msg) {
         });
     });
 });
+
+//Avoid Heroku idling - ping every 5 minutes
+setInterval(function() {
+    https.get("https://voice2message.herokuapp.com");
+}, 300000); // every 5 minutes (300000)
