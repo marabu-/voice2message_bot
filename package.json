@@ -8,6 +8,7 @@
     "start": "node --harmony_default_parameters app.js"
   },
   "dependencies": {
+    "express": "^4.14.0",
     "node-telegram-bot-api": "^0.24.0"
   }
 }
