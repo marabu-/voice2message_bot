@@ -29,6 +29,7 @@ bot.on('message', function (msg) {
         return;
     }
 
+    console.log(msg);
     bot.sendChatAction(msg.chat.id, 'typing');
 
     bot.downloadFile(msg.voice.file_id, path.join(__dirname, 'tmp')).then(filePath => {
@@ -46,7 +47,7 @@ bot.on('message', function (msg) {
             return response._text;
         }).then(text => {
             if(text === null || text === ""){
-                var transcribingErrorMessage = 'Говори четче ' + msg.from.first_name + ', нихуя не понятно!';
+                var transcribingErrorMessage = 'Говори четче, ' + msg.from.first_name + '. Нихуя не понятно!';
                 bot.sendMessage(msg.chat.id, transcribingErrorMessage, {
                     reply_to_message_id: msg.message_id
                 });
