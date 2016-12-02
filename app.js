@@ -5,6 +5,7 @@ const https = require("https");
 const telegramToken = config.telegramToken;
 const witToken = config.witToken;
 const ffmpegPath = config.ffmpegPath;
+const heroku_url = config.heroku_url;
 const fs = require('fs');
 const TelegramBot = require('node-telegram-bot-api');
 const ffmpeg = require('./ffmpeg');
@@ -43,7 +44,13 @@ bot.on('message', function (msg) {
 
     console.log(msg);
     bot.sendChatAction(msg.chat.id, 'typing');
-
+    if(msg.voice.duration > 120){
+        var longDurationMessage = msg.from.first_name + ', слишком долгий войс, 2 минуты максимум!';
+        bot.sendMessage(msg.chat.id, longDurationMessage, {
+            reply_to_message_id: msg.message_id
+        });
+        return;
+    }
     bot.downloadFile(msg.voice.file_id, path.join(__dirname, 'tmp')).then(filePath => {
         const mp3Path = filePath + '.mp3';
         return ffmpeg(ffmpegPath, ['-i ' + filePath, '-acodec libmp3lame', mp3Path]).then((stdout) => {
@@ -58,8 +65,8 @@ bot.on('message', function (msg) {
             console.log("FROM wit.ai: " + response._text);
             return response._text;
         }).then(text => {
-            if (text === null || text === "") {
-                var transcribingErrorMessage = 'Говори четче, ' + msg.from.first_name + '. Нихуя не понятно!';
+            if (text === null || text === "" || text === undefined) {
+                var transcribingErrorMessage = 'Говори четче, ' + msg.from.first_name + '. Ничего не понятно!';
                 bot.sendMessage(msg.chat.id, transcribingErrorMessage, {
                     reply_to_message_id: msg.message_id
                 });
@@ -77,5 +84,5 @@ bot.on('message', function (msg) {
 
 //Avoid Heroku idling - ping every 5 minutes
 setInterval(function() {
-    https.get("https://voice2message.herokuapp.com");
+    https.get(heroku_url);
 }, 300000); // every 5 minutes (300000)
