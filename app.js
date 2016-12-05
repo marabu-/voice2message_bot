@@ -44,8 +44,8 @@ bot.on('message', function (msg) {
 
     console.log(msg);
     bot.sendChatAction(msg.chat.id, 'typing');
-    if(msg.voice.duration > 120){
-        var longDurationMessage = `**${msg.from.first_name}**, слишком долгий войс, 1 минуту максимум!`;
+    if(msg.voice.duration > 60){
+        var longDurationMessage = `*${msg.from.first_name}*, слишком долгий войс, 1 минуту максимум!`;
         bot.sendMessage(msg.chat.id, longDurationMessage, {
             reply_to_message_id: msg.message_id,
             parse_mode: 'Markdown'
@@ -67,14 +67,14 @@ bot.on('message', function (msg) {
             return response._text;
         }).then(text => {
             if (text === null || text === "" || text === undefined) {
-                var transcribingErrorMessage = `Говори четче, **${msg.from.first_name}**. Ничего не понятно!`;
+                var transcribingErrorMessage = `Говори четче, *${msg.from.first_name}*. Ничего не понятно!`;
                 bot.sendMessage(msg.chat.id, transcribingErrorMessage, {
                     reply_to_message_id: msg.message_id,
                     parse_mode: 'Markdown'
                 });
                 return;
             }
-            const message = `**${msg.from.first_name}** : ${text}`;
+            const message = `*${msg.from.first_name}* : ${text}`;
             bot.sendMessage(msg.chat.id, message, {
                 reply_to_message_id: msg.message_id,
                 parse_mode: 'Markdown'
